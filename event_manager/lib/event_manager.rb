@@ -7,25 +7,30 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-puts "EventManager initialized."
-
-contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
-
-contents.each do |row|
-  name = row[:first_name]
-  zipcode = clean_zipcode(row[:zipcode])
-
+def legislators_by_zipcode(zipcode)
   legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 
   legislator_names = legislators.collect do |legislator|
-  "#{legislator.first_name} #{legislator.last_name}"
+    "#{legislator.first_name} #{legislator.last_name}"
+  end
+
+  legislator_names.join(", ")
 end
 
-# replace legislators with legislator_names in our output we would be presented with a slightly better output
+puts "EventManager initialized."
 
-legislators_string = legislator_names.join(", ")
+contents = CSV.open 'event_attendees.csv',
+                    headers: true,
+                    header_converters: :symbol
 
-  puts "#{name} #{zipcode} #{legislators_string}"
+contents.each do |row|
+  name = row[:first_name]
+
+  zipcode = clean_zipcode(row[:zipcode])
+
+  legislators = legislators_by_zipcode(zipcode)
+
+  puts "#{name} #{zipcode} #{legislators}"
 end
 
 
