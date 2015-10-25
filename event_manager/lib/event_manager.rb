@@ -5,7 +5,7 @@ def clean_zipcode(zipcode)
   if zipcode.nil?
     "00000"
   elsif zipcode.length < 5
-    zipcode.rjust(5,"0")
+    zipcode.rjust(5,"0")[0..4]
   elsif zipcode.length > 5
     zipcode[0..4]
   else
