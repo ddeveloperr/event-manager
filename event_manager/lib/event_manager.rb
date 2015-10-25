@@ -14,7 +14,7 @@ puts "EventManager Initialized!"
 #end
 
 # 3. Ruby’s String#split allows you to convert a string of text into an Array along a particular character.
-
+=begin 
 
 lines = File.readlines "event_attendees.csv" 
 lines.each do |line|
@@ -24,5 +24,19 @@ lines.each do |line|
     puts  name
 end
 
+=end
+
+
+# 4. This solves the problem if the header row were to change in the future. 
+
+puts "EventManager initialized."
+
+lines = File.readlines "event_attendees.csv"
+lines.each_with_index do |line,index|
+  next if index == 0
+  columns = line.split(",")
+  name = columns[2]
+  puts name
+end
 
 
