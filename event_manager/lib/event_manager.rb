@@ -1,4 +1,3 @@
-puts "EventManager Initialized!"
 
 # 1. Simple way to list file content
 
@@ -29,7 +28,7 @@ end
 
 # 4. This solves the problem if the header row were to change in the future. 
 
-puts "EventManager initialized."
+=begin 
 
 lines = File.readlines "event_attendees.csv"
 lines.each_with_index do |line,index|
@@ -38,5 +37,60 @@ lines.each_with_index do |line,index|
   name = columns[2]
   puts name
 end
+
+5. Switching over to use the CSV Library
+
+  
+
+
+require "csv"
+puts "EventManager initialized."
+
+contents = CSV.open "event_attendees.csv", headers: true
+contents.each do |row|
+    name = row[2]
+    puts name
+
+end
+
+
+6. Accessing Columns by their Names
+
+
+
+require "csv"
+puts "EventManager initialized."
+
+contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
+contents.each do |row|
+    name = row[:first_name]
+    puts name
+end
+
+7. Displaying the Zip Codes of All Attendees
+
+=end
+
+
+require "csv"
+puts "EventManager initialized."
+
+contents = CSV.open "event_attendees.csv", headers: true,
+header_converters: :symbol
+contents.each do |row|
+    name = row[:first_name]
+    zipcode = row[:zipcode]
+    puts "#{name} #{zipcode}"
+end
+
+
+
+
+
+
+
+
+
+
 
 
