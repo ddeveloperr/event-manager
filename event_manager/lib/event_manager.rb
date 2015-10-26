@@ -12,6 +12,18 @@ def legislators_by_zipcode(zipcode)
   legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 
+def save_thank_you_letters(id, form_letter)
+  Dir.mkdir("output") unless Dir.exist?("output")
+  
+  filename = "output/thanks_#{id}.html"
+
+  File.open(filename,'w') do |file|
+    file.puts form_letter
+  end
+
+end
+  
+
 puts "EventManager initialized."
 
 contents = CSV.open 'event_attendees.csv',
@@ -25,22 +37,15 @@ erb_template = ERB.new template_letter
 contents.each do |row|
   id = row[0]
   name = row[:first_name]
-
   zipcode = clean_zipcode(row[:zipcode])
-
   legislators = legislators_by_zipcode(zipcode)
   
   form_letter = erb_template.result(binding)
   
-  Dir.mkdir("output") unless Dir.exist? "output"
-  
-  filename = "output/thanks_#{id}.html"
-  
-  File.open(filename, 'w') do |file| 
-    file.puts form_letter
-    end
-  
+  save_thank_you_letters(id, form_letter)
 end
+
+
   
   
 
